@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps Lead Scraper</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-map-location-dot gradient-text"></i> MapScraper Pro</h2>
+            </div>
+            <button id="newSearchBtn" class="btn btn-primary w-100 mb-4">
+                <i class="fa-solid fa-plus"></i> New Search
+            </button>
+            <div class="sidebar-nav">
+                <h3>Recent Searches</h3>
+                <ul id="groupList" class="group-list">
+                    <!-- Groups injected here via JS -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Modal Overlay for New Search -->
+            <div id="searchModal" class="modal-overlay hidden">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h2>Create New Scrape Job</h2>
+                        <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <form id="searchForm" class="modal-body">
+                        <div class="form-group">
+                            <label for="query">Search Query</label>
+                            <input type="text" id="query" placeholder="e.g. Dentists in New York" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="limit">Number of Leads</label>
+                            <select id="limit" style="width:100%; padding:10px 12px; border-radius:8px; background:var(--bg-base); color:var(--text-primary); border:1px solid var(--border-color); outline:none;">
+                                <option value="100">100 Leads</option>
+                                <option value="250">250 Leads</option>
+                                <option value="500">500 Leads</option>
+                                <option value="1000">1000 Leads</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 w-100">
+                            Start Scraping <i class="fa-solid fa-rocket"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dashboard View (Empty State / Table) -->
+            <div id="dashboardView" class="dashboard">
+                <div class="dashboard-header">
+                    <h1 id="dashboardTitle">Select a search group</h1>
+                    <div class="action-buttons hidden" id="groupActions">
+                        <button class="btn btn-primary" id="appendBtn"><i class="fa-solid fa-plus"></i> Extract More</button>
+                        <button class="btn btn-secondary" id="refreshBtn" title="Refresh"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button class="btn btn-success" id="exportBtn"><i class="fa-solid fa-download"></i> Export CSV</button>
+                        <button class="btn btn-danger" id="deleteGroupBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </div>
+                </div>
+                
+                <div id="statusIndicator" class="status-indicator hidden">
+                    <div class="loader"></div>
+                    <span id="statusText">Status: Scraping...</span>
+                </div>
+
+                <div class="table-container">
+                    <div id="leadsCountContainer" class="hidden" style="padding: 16px; background: var(--bg-surface-elevated); border-bottom: 1px solid var(--border-color); font-weight: 500; font-size: 0.95rem;">
+                        Total Leads in Group: <span id="leadsCount" style="color: var(--accent-primary);">0</span>
+                    </div>
+                    <table class="leads-table hidden" id="leadsTable">
+                        <thead>
+                            <tr>
+                                <th>Name & Category</th>
+                                <th>Phone</th>
+                                <th>Website</th>
+                                <th>Rating / Reviews</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody">
+                            <!-- Leads injected here -->
+                        </tbody>
+                    </table>
+                    <div id="emptyState" class="empty-state">
+                        <i class="fa-solid fa-magnifying-glass-location empty-icon"></i>
+                        <p>No data selected. Create a new search or select a group from the sidebar.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
