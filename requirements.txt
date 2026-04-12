@@ -8,3 +8,8 @@ beautifulsoup4
 lxml
 openai
 python-dotenv
+passlib[bcrypt]
+bcrypt==3.2.2
+PyJWT
+cryptography
+python-multipart

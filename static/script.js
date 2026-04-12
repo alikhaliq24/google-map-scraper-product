@@ -975,15 +975,14 @@ function closeLLMDrawer() {
 // ── Export / Delete / Edit ─────────────────────────────────────────────────
 function handleExport() {
     if (!currentGroupId) return;
-    const token = localStorage.getItem('access_token');
-    window.location.href = `${API_BASE}/groups/${currentGroupId}/export?token=${token}`; // For browser native download, you'd usually pass token in query if needed, or handle frontend generation. Since backend uses Auth, this needs fixing in backend or using fetch -> blob.
-    // Better way to export securely:
     exportCSV();
 }
 
 async function exportCSV() {
     try {
-        const res = await authFetch(`${API_BASE}/groups/${currentGroupId}/export`);
+        const token = localStorage.getItem('access_token');
+        const res = await fetch(`${API_BASE}/groups/${currentGroupId}/export?token=${encodeURIComponent(token)}`);
+        if (!res.ok) throw new Error('Export failed');
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -991,6 +990,7 @@ async function exportCSV() {
         const groupName = dashboardTitle.innerText || 'Leads';
         a.download = `${groupName.replace(' ', '_')}.csv`;
         a.click();
+        window.URL.revokeObjectURL(url);
     } catch(e) {
         showToast('Export failed', 'error');
     }
