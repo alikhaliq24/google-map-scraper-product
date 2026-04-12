@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+sqlalchemy[asyncio]
+aiosqlite
+playwright
+httpx[http2]
+beautifulsoup4
+lxml
+openai
+python-dotenv
