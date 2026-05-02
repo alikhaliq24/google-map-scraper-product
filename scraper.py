@@ -27,7 +27,7 @@ async def scrape_google_maps(group_id: int, query: str, limit: int = 100):
                 user_data_dir = "/tmp/playwright-scraper-data"
                 browser = await p.chromium.launch_persistent_context(
                     user_data_dir,
-                    headless=False, # Changed to False so you can see what is happening
+                    headless=True,
                     args=["--no-sandbox", "--disable-dev-shm-usage"]
                 )
                 page = browser.pages[0] if len(browser.pages) > 0 else await browser.new_page()
